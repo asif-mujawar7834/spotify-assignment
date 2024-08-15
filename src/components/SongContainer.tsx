@@ -112,7 +112,7 @@ export const SongContainer = () => {
       <img
         key={key.toString()}
         src={currentSong?.bannerImg}
-        className="w-[350px] h-[350px] md:w-[480px] md:h-[480px] object-center rounded-md animate-fadeIn"
+        className="w-full sm:h-[250px] md:h-[350px] lg:h-[400px] xl:h-[420px] object-center rounded-md animate-fadeIn"
       />
 
       <Seeker
