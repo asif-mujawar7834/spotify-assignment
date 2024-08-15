@@ -48,7 +48,7 @@ export const Home = () => {
 
   return (
     <section
-      className={`p-2 relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[minmax(0,133px)_minmax(0,432px)_minmax(0,480px)] h-screen overflow-hidden md:p-8 gap-10 md:gap-20 lg:gap-24 justify-around duration-500`}
+      className={`p-2 relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-[minmax(0,133px)_minmax(0,432px)_minmax(0,480px)] h-screen overflow-hidden md:p-8 gap-10 md:gap-20 lg:gap-24 justify-around  duration-700`}
       style={{ backgroundColor: currentSong?.accent }}
     >
       <div className="hidden lg:block duration-300">
