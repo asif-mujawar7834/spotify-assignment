@@ -18,7 +18,7 @@ export const SongContainer = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [isSongLoading, setIsSongLoading] = useState(true);
-  const howlerRef = useRef<ReactHowlerRef>(null);
+  const howlerRef = useRef<ReactHowler>(null);
   const [values, setValues] = useState([0]);
 
   useEffect(() => {
