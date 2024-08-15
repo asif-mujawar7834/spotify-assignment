@@ -7,6 +7,7 @@ import {
 import { useEffect, useState } from "react";
 import { useDebounce } from "../../hooks/useDebounce";
 import { AiOutlineLoading3Quarters } from "react-icons/ai";
+import { FaTimes } from "react-icons/fa";
 export const SearchSongForm = () => {
   const dispatch = useAppDispatch();
   const { searchLoading } = useAppSelector((state) => state.songs);
@@ -36,6 +37,13 @@ export const SearchSongForm = () => {
         />
         {searchLoading ? (
           <AiOutlineLoading3Quarters className="animate-spin" />
+        ) : value ? (
+          <button
+            className="text-xl cursor-pointer"
+            onClick={() => setValue("")}
+          >
+            <FaTimes />
+          </button>
         ) : (
           <CiSearch className="text-xl" />
         )}
