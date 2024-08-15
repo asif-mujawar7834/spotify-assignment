@@ -30,7 +30,7 @@ export const SearchSongForm = () => {
     <form className="flex flex-col" onSubmit={(e) => e.preventDefault()}>
       <div className="flex items-center font-normal bg-gray-500/30 py-2 px-4 rounded-md text-[18px] placeholder:opacity-60">
         <input
-          className="bg-transparent outline-none flex-1"
+          className="bg-transparent outline-none w-full"
           placeholder="Search song, artist"
           onChange={handleChange}
           value={value}
@@ -39,7 +39,7 @@ export const SearchSongForm = () => {
           <AiOutlineLoading3Quarters className="animate-spin" />
         ) : value ? (
           <button
-            className="text-xl cursor-pointer"
+            className="text-lg cursor-pointer"
             onClick={() => setValue("")}
           >
             <FaTimes />
