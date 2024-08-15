@@ -93,7 +93,9 @@ export const SongList = () => {
             Top Tracks
           </h2>
         </div>
-        <SearchSongForm />
+        <div className="px-3">
+          <SearchSongForm />
+        </div>
       </div>
 
       {searchLoading ? (
