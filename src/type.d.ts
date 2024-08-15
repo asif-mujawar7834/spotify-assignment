@@ -32,3 +32,9 @@ interface ReactHowlerRef {
   seek: (value?: number) => number;
   duration: () => number;
 }
+
+interface imageProps {
+  alt: string | undefined;
+  src: string | undefined;
+  className: string;
+}

@@ -1,10 +1,10 @@
-import { SearchSongForm } from "./forms/SearchSongForm";
-import { useAppDispatch, useAppSelector } from "../redux/store";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { setCurrentSong, toggleSongList } from "../redux/reducers/songSlice";
 import { selectFilteredSongs } from "../redux/selectors/songSelector";
+import { useAppDispatch, useAppSelector } from "../redux/store";
+import { setCurrentSong, toggleSongList } from "../redux/reducers/songSlice";
 import { FaBars } from "react-icons/fa";
-
+import { SearchSongForm } from "./forms/SearchSongForm";
+import { SongLoadingSkeleton } from "./SongLoadingSkeleton";
+import { LazyLoadImageComponent } from "./LazyLoadImageComponent";
 export const SongList = () => {
   const {
     fetchLoading,
@@ -16,14 +16,19 @@ export const SongList = () => {
   const songsList = useAppSelector(selectFilteredSongs);
   const dispatch = useAppDispatch();
 
-  const loadingAnimation = (
-    <div className="text-white flex justify-center">
-      <AiOutlineLoading3Quarters className="my-20 text-3xl font-bold animate-spin" />
-    </div>
-  );
+  const Skeletons = () => {
+    const skeletonItems = Array.from({ length: 5 });
+    return (
+      <div className="space-y-4">
+        {skeletonItems.map((_, index) => (
+          <SongLoadingSkeleton key={index} />
+        ))}
+      </div>
+    );
+  };
 
   if (fetchLoading) {
-    return loadingAnimation;
+    return Skeletons();
   }
 
   if (fetchError) {
@@ -48,10 +53,10 @@ export const SongList = () => {
           key={song.id}
           onClick={() => handleSongSelect(song)}
         >
-          <img
+          <LazyLoadImageComponent
+            alt={song.name}
             src={song.bannerImg}
             className="h-[48px] w-[48px] rounded-full"
-            alt="song-image"
           />
           <div className="ml-4 flex-1">
             <h3 className="text-lg font-normal">{song.name}</h3>
@@ -67,7 +72,7 @@ export const SongList = () => {
     <div
       className={`${
         isSongListOpen
-          ? "h-full md:flex md:flex-col overflow-hidden px-4 text-white gap-6 duration-500"
+          ? "h-full flex flex-col overflow-hidden px-4 text-white gap-6 duration-500"
           : "hidden"
       }`}
     >
@@ -91,16 +96,18 @@ export const SongList = () => {
         <SearchSongForm />
       </div>
 
-      {searchLoading ? (
-        loadingAnimation
-      ) : songsList.length === 0 ? (
-        <h1 className="my-5 mx-4">
-          Oops! We couldn't find what you're looking for. Maybe try a different
-          search?
-        </h1>
-      ) : (
-        renderSongList
-      )}
+      <div className={`${isSongListOpen ? "overflow-y-auto" : ""}`}>
+        {searchLoading ? (
+          Skeletons()
+        ) : songsList.length === 0 ? (
+          <h1 className="my-5 mx-4">
+            Oops! We couldn't find what you're looking for. Maybe try a
+            different search?
+          </h1>
+        ) : (
+          renderSongList
+        )}
+      </div>
     </div>
   );
 };

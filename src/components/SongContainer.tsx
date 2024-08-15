@@ -11,6 +11,7 @@ import { convertPercentageToValue } from "../lib";
 import { Seeker } from "./Seeker";
 import { Controls } from "./Controls";
 import { FaBars } from "react-icons/fa";
+import { LazyLoadImageComponent } from "./LazyLoadImageComponent";
 
 export const SongContainer = () => {
   const [key, setKey] = useState(Date.now());
@@ -109,8 +110,10 @@ export const SongContainer = () => {
           {currentSong?.artist}
         </p>
       </div>
-      <img
+
+      <LazyLoadImageComponent
         key={key.toString()}
+        alt={currentSong?.url}
         src={currentSong?.bannerImg}
         className="w-full sm:h-[250px] md:h-[350px] lg:h-[400px] xl:h-[420px] object-center rounded-md animate-fadeIn"
       />
