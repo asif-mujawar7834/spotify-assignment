@@ -1,7 +1,7 @@
 import { selectFilteredSongs } from "../redux/selectors/songSelector";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { setCurrentSong, toggleSongList } from "../redux/reducers/songSlice";
-import { FaTimes } from "react-icons/fa";
+import { FaCompactDisc, FaTimes } from "react-icons/fa";
 import { SearchSongForm } from "./forms/SearchSongForm";
 import { SongLoadingSkeleton } from "./SongLoadingSkeleton";
 import { LazyLoadImageComponent } from "./LazyLoadImageComponent";
@@ -12,6 +12,7 @@ export const SongList = () => {
     searchLoading,
     isSongListOpen,
     currentSong,
+    currentPlayingSongURL,
   } = useAppSelector((state) => state.songs);
   const songsList = useAppSelector(selectFilteredSongs);
   const dispatch = useAppDispatch();
@@ -62,7 +63,11 @@ export const SongList = () => {
             <h3 className="text-lg font-normal">{song.name}</h3>
             <span className="text-sm opacity-50">{song.artist}</span>
           </div>
-          <span className="text-lg opacity-50 font-normal">4:06</span>
+          {currentPlayingSongURL == song?.url ? (
+            <FaCompactDisc className="duration-300 animate-spin text-3xl" />
+          ) : (
+            <span className="text-lg opacity-50 font-normal">4:06</span>
+          )}
         </div>
       ))}
     </div>

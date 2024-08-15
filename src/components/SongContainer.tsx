@@ -1,6 +1,7 @@
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import Profile from "../assets/images/Profile.png";
 import {
+  playCurrentSongURL,
   setNextSong,
   setPrevSong,
   toggleSongList,
@@ -15,10 +16,12 @@ import { LazyLoadImageComponent } from "./LazyLoadImageComponent";
 
 export const SongContainer = () => {
   const [key, setKey] = useState(Date.now());
-  const { currentSong } = useAppSelector((state) => state.songs);
+  const { currentSong, currentPlayingSongURL } = useAppSelector(
+    (state) => state.songs
+  );
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
-  const [isSongLoading, setIsSongLoading] = useState(true);
+  const [isSongLoading, setIsSongLoading] = useState(false);
   const howlerRef = useRef<ReactHowler>(null);
   const [values, setValues] = useState([0]);
 
@@ -41,10 +44,14 @@ export const SongContainer = () => {
   }, [isPlaying]);
 
   useEffect(() => {
-    setValues([0]);
-    setKey(Date.now());
-    setIsSongLoading(true);
-  }, [currentSong?.bannerImg]);
+    if (currentSong?.url === currentPlayingSongURL) {
+      setIsSongLoading(false);
+    } else {
+      setIsSongLoading(true);
+      setValues([0]);
+      setKey(Date.now());
+    }
+  }, [currentSong, currentPlayingSongURL]);
 
   const dispatch = useAppDispatch();
 
@@ -64,6 +71,7 @@ export const SongContainer = () => {
   };
 
   const handleLoad = () => {
+    console.log("Load triggered");
     if (howlerRef.current) {
       setIsSongLoading(false);
       setDuration(howlerRef.current.duration());
@@ -71,7 +79,12 @@ export const SongContainer = () => {
   };
 
   const togglePlay = () => {
-    setIsPlaying(!isPlaying);
+    if (currentSong?.url === currentPlayingSongURL) {
+      setIsPlaying(!isPlaying);
+    } else {
+      dispatch(playCurrentSongURL(currentSong?.url));
+      setIsPlaying(true);
+    }
   };
 
   return (
@@ -93,14 +106,18 @@ export const SongContainer = () => {
           <FaBars />
         </button>
       </div>
-      {currentSong?.url && (
+      {currentPlayingSongURL && (
         <div className="h-0">
           <ReactHowler
-            src={currentSong?.url as string}
+            key={currentPlayingSongURL}
+            src={currentPlayingSongURL}
             playing={isPlaying}
             ref={howlerRef}
             onLoad={handleLoad}
-            onEnd={() => setIsPlaying(false)}
+            onEnd={() => {
+              setValues([0]);
+              setIsPlaying(false);
+            }}
           />
         </div>
       )}
@@ -118,19 +135,19 @@ export const SongContainer = () => {
         className="w-full h-[180px] sm:h-[250px] md:h-[350px] lg:h-[400px] xl:h-[420px] object-center rounded-md animate-fadeIn"
       />
 
-      <Seeker
-        values={values}
-        handleRangeChange={handleRangeChange}
-        isSongLoading={isSongLoading}
-      />
+      {currentPlayingSongURL === currentSong?.url && (
+        <Seeker
+          values={values}
+          handleRangeChange={handleRangeChange}
+          isSongLoading={isSongLoading}
+        />
+      )}
 
       <Controls
         handlePrevSong={handlePrevSong}
         togglePlay={togglePlay}
-        isSongLoading={isSongLoading}
         isPlaying={isPlaying}
         handleNextSong={handleNextSong}
-        values={values}
       />
     </section>
   );

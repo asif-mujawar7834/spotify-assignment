@@ -1,4 +1,4 @@
-export const fetchSongList = async (): Promise<songType[] | string> => {
+export const fetchSongList = async (): Promise<songType[]> => {
   try {
     const res = await fetch("https://cms.samespace.com/items/songs");
     if (!res.ok) {
@@ -14,24 +14,7 @@ export const fetchSongList = async (): Promise<songType[] | string> => {
     );
 
     return songList;
-  } catch (error) {
-    if (error instanceof Error) {
-      return error.message as string;
-    }
-    return "Something went wrong!.";
-  }
-};
-
-export const fetchSongBanner = async (coverImageId: string) => {
-  try {
-    const res = await fetch(`https://cms.samespace.com/assets/${coverImageId}`);
-    if (!res.ok) {
-      throw new Error("Something went wrong while fetching API!.");
-    }
-
-    const data = await res.json();
-    return data;
-  } catch (error) {
-    return error;
+  } catch {
+    throw new Error("Something went wrong while fetching songs list");
   }
 };

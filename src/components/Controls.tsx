@@ -1,28 +1,16 @@
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import {
-  FaEllipsisH,
-  FaPause,
-  FaPlay,
-  FaRedoAlt,
-  FaVolumeUp,
-} from "react-icons/fa";
+import { FaEllipsisH, FaPause, FaPlay, FaVolumeUp } from "react-icons/fa";
 import { TbPlayerTrackNextFilled } from "react-icons/tb";
-interface ControlsTypes {
-  handlePrevSong: () => void;
-  togglePlay: () => void;
-  isSongLoading: boolean;
-  isPlaying: boolean;
-  handleNextSong: () => void;
-  values: number[];
-}
+import { useAppSelector } from "../redux/store";
+
 export const Controls: React.FC<ControlsTypes> = ({
   handlePrevSong,
   togglePlay,
-  isSongLoading,
   isPlaying,
   handleNextSong,
-  values,
 }) => {
+  const { currentPlayingSongURL, currentSong } = useAppSelector(
+    (state) => state.songs
+  );
   return (
     <div className="flex items-center justify-between gap-5">
       <button className="relative h-[42px] w-[42px] flex items-center justify-center rounded-full bg-gray-500/30 text-white overflow-hidden transition-all duration-300 group">
@@ -37,21 +25,22 @@ export const Controls: React.FC<ControlsTypes> = ({
           <TbPlayerTrackNextFilled className="relative z-10 group-hover:text-white transition-colors duration-300 opacity-60" />
           <span className="rounded-full absolute inset-0 bg-gray-500/30 transform scale-0 group-hover:scale-100 transition-transform duration-300"></span>
         </button>
-        <button
-          className="duration-300 h-[48px] w-[48px] flex items-center justify-center rounded-full text-[#373A40] bg-white"
-          onClick={togglePlay}
-          disabled={isSongLoading}
-        >
-          {isSongLoading ? (
-            <AiOutlineLoading3Quarters className="text-2xl font-black animate-spin" />
-          ) : Math.ceil(values[0]) === 100 ? (
-            <FaRedoAlt />
-          ) : isPlaying ? (
-            <FaPause />
-          ) : (
+        {currentPlayingSongURL !== currentSong?.url ? (
+          <button
+            className="duration-300 h-[48px] w-[48px] flex items-center justify-center rounded-full text-[#373A40] bg-white"
+            onClick={togglePlay}
+          >
             <FaPlay />
-          )}
-        </button>
+          </button>
+        ) : (
+          <button
+            className="duration-300 h-[48px] w-[48px] flex items-center justify-center rounded-full text-[#373A40] bg-white"
+            onClick={togglePlay}
+          >
+            {isPlaying ? <FaPause /> : <FaPlay />}
+          </button>
+        )}
+
         <button
           className="relative h-[42px] w-[42px] flex items-center justify-center rounded-full bg-transparent text-white overflow-hidden transition-all duration-300 group"
           onClick={handleNextSong}

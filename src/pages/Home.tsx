@@ -8,6 +8,7 @@ import {
   fetchSongError,
   fetchSongStart,
   fetchSongSuccess,
+  playCurrentSongURL,
   setCurrentSong,
   toggleSongList,
 } from "../redux/reducers/songSlice";
@@ -25,6 +26,7 @@ export const Home = () => {
         dispatch(fetchSongStart());
         const result = await fetchSongList();
         dispatch(fetchSongSuccess(result));
+        dispatch(playCurrentSongURL(result[0].url as string));
         dispatch(setCurrentSong(result[0]));
       } catch (err) {
         if (err instanceof Error) {

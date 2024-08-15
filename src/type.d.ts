@@ -38,3 +38,10 @@ interface imageProps {
   src: string | undefined;
   className: string;
 }
+
+interface ControlsTypes {
+  handlePrevSong: () => void;
+  togglePlay: () => void;
+  isPlaying: boolean;
+  handleNextSong: () => void;
+}
