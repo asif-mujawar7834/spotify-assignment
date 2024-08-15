@@ -115,7 +115,7 @@ export const SongContainer = () => {
         key={key.toString()}
         alt={currentSong?.url}
         src={currentSong?.bannerImg}
-        className="w-full sm:h-[250px] md:h-[350px] lg:h-[400px] xl:h-[420px] object-center rounded-md animate-fadeIn"
+        className="w-full h-[180px] sm:h-[250px] md:h-[350px] lg:h-[400px] xl:h-[420px] object-center rounded-md animate-fadeIn"
       />
 
       <Seeker

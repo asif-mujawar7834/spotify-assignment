@@ -44,7 +44,7 @@ export const SongList = () => {
   };
 
   const renderSongList = (
-    <div className="flex flex-col flex-grow gap-y-1 overflow-y-auto">
+    <div className="flex flex-col flex-grow gap-y-1 visible">
       {songsList?.map((song) => (
         <div
           className={`flex cursor-pointer p-3 items-center rounded-md duration-300 ${
@@ -96,18 +96,22 @@ export const SongList = () => {
         <SearchSongForm />
       </div>
 
-      <div className={`${isSongListOpen ? "overflow-y-auto" : ""}`}>
-        {searchLoading ? (
-          Skeletons()
-        ) : songsList.length === 0 ? (
-          <h1 className="my-5 mx-4">
-            Oops! We couldn't find what you're looking for. Maybe try a
-            different search?
-          </h1>
-        ) : (
-          renderSongList
-        )}
-      </div>
+      {searchLoading ? (
+        Skeletons()
+      ) : songsList.length === 0 ? (
+        <h1 className="my-5 mx-4">
+          Oops! We couldn't find what you're looking for. Maybe try a different
+          search?
+        </h1>
+      ) : (
+        <div
+          className={`${
+            isSongListOpen ? "overflow-y-auto invisible hover:visible" : ""
+          }`}
+        >
+          {renderSongList}
+        </div>
+      )}
     </div>
   );
 };
