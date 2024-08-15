@@ -1,7 +1,7 @@
 import { selectFilteredSongs } from "../redux/selectors/songSelector";
 import { useAppDispatch, useAppSelector } from "../redux/store";
 import { setCurrentSong, toggleSongList } from "../redux/reducers/songSlice";
-import { FaBars } from "react-icons/fa";
+import { FaTimes } from "react-icons/fa";
 import { SearchSongForm } from "./forms/SearchSongForm";
 import { SongLoadingSkeleton } from "./SongLoadingSkeleton";
 import { LazyLoadImageComponent } from "./LazyLoadImageComponent";
@@ -76,14 +76,14 @@ export const SongList = () => {
           : "hidden"
       }`}
     >
-      <div className="block absolute right-4 top-4 md:hidden">
+      <div className="block absolute right-4 top-5 md:hidden">
         <button
           className="text-white bg-gray-500/50 font-bold p-3 rounded-md"
           onClick={() => {
             dispatch(toggleSongList(false));
           }}
         >
-          <FaBars />
+          <FaTimes />
         </button>
       </div>
       <div className="py-4 flex flex-col gap-6">
